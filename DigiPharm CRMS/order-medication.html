@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Medication - Exceed DigiPharm</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; }
+        section { padding: 20px; text-align: center; }
+        .medication-list { display: flex; flex-wrap: wrap; justify-content: center; }
+        .medication { background: white; padding: 15px; margin: 10px; border-radius: 5px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
+        .cart { margin-top: 20px; padding: 15px; background: white; border-radius: 5px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); }
+        button { background: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+    <script>
+        let cart = [];
+
+        function addToCart(medication, price) {
+            cart.push({ medication, price });
+            updateCart();
+        }
+
+        function updateCart() {
+            let cartDiv = document.getElementById('cart-items');
+            cartDiv.innerHTML = "";
+            let total = 0;
+            cart.forEach(item => {
+                total += item.price;
+                cartDiv.innerHTML += `<p>${item.medication} - $${item.price.toFixed(2)}</p>`;
+            });
+            document.getElementById('total-price').innerText = `Total: $${total.toFixed(2)}`;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Order Medication</h1>
+    </header>
+    <nav>
+        <a href="services.html">Back to Services</a>
+    </nav>
+    <section>
+        <h2>Available Medications</h2>
+        <div class="medication-list">
+            <div class="medication">
+                <h3>Paracetamol</h3>
+                <p>Price: $5.00</p>
+                <button onclick="addToCart('Paracetamol', 5.00)">Add to Cart</button>
+            </div>
+            <div class="medication">
+                <h3>Ibuprofen</h3>
+                <p>Price: $8.00</p>
+                <button onclick="addToCart('Ibuprofen', 8.00)">Add to Cart</button>
+            </div>
+        </div>
+        <div class="cart">
+            <h3>Shopping Cart</h3>
+            <div id="cart-items"></div>
+            <p id="total-price">Total: $0.00</p>
+            <a href="payment.html"><button>Proceed to Payment</button></a>
+        </div>
+    </section>
+</body>
+</html>

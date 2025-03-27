@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Consultation - Exceed DigiPharm</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; font-size: 16px; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; }
+        section { padding: 20px; text-align: center; flex: 1; }
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+        footer a { color: white; margin: 0 10px; text-decoration: none; font-size: 18px; }
+        .pharma-animation { width: 150px; height: 150px; margin: 0 auto; display: block; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .pharma-animation {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Book Consultation</h1>
+        <p>Consult with healthcare professionals remotely through our platform and get the advice you need.</p>
+    </header>
+
+    <nav>
+        <a href="services.html">Back to Services</a>
+    </nav>
+
+    <section>
+        <h2>Welcome to Our Book Consultation Service</h2>
+        <p>Please log in or sign up to book a consultation with one of our health professionals.</p>
+        <img src="pharma-animation.gif" class="pharma-animation" alt="Pharmaceutical Animation">
+        <a href="loginbc.html"><button>Login</button></a>
+        <a href="signupbc.html"><button>Sign Up</button></a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+</body>
+</html>
