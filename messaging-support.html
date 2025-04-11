@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging & Support - Exceed Pharmacy Roma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; position: relative; }
+        .back-to-home { position: absolute; top: 15px; right: 15px; color: white; text-decoration: none; font-size: 24px; }
+        .back-to-home:hover { color: #f0f0f0; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; font-size: 16px; }
+        .container { display: flex; flex: 1; }
+        .side-menu { width: 60px; background: #333; color: white; padding: 20px 10px; transition: width 0.3s ease; overflow: hidden; }
+        .side-menu:hover { width: 250px; }
+        .side-menu a { display: flex; align-items: center; color: white; padding: 10px; text-decoration: none; margin-bottom: 10px; border-radius: 5px; transition: background 0.3s; }
+        .side-menu a:hover { background: #4CAF50; }
+        .side-menu a i { font-size: 20px; margin-right: 10px; width: 30px; text-align: center; }
+        .side-menu a span { display: none; }
+        .side-menu:hover a span { display: inline; }
+        .main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; }
+        
+        /* Messaging Styles */
+        .messaging-container { display: flex; flex: 1; gap: 20px; }
+        .conversation-list { width: 300px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .conversation-header { background: #6A0DAD; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .conversation-search { padding: 10px; border-bottom: 1px solid #eee; }
+        .conversation-search input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .conversation-items { overflow-y: auto; max-height: calc(100vh - 250px); }
+        .conversation-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.3s; }
+        .conversation-item:hover { background: #f9f9f9; }
+        .conversation-item.active { background: #e6f7e6; border-left: 3px solid #4CAF50; }
+        .conversation-item.unread { font-weight: bold; }
+        .conversation-meta { display: flex; justify-content: space-between; margin-top: 5px; font-size: 12px; color: #666; }
+        .conversation-preview { color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .message-area { flex: 1; display: flex; flex-direction: column; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .message-header { background: #6A0DAD; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .message-participants { font-weight: bold; }
+        .message-actions button { background: none; border: none; color: white; cursor: pointer; margin-left: 10px; }
+        .message-display { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; }
+        .message { margin-bottom: 15px; max-width: 70%; }
+        .message.received { align-self: flex-start; }
+        .message.sent { align-self: flex-end; }
+        .message-bubble { padding: 10px 15px; border-radius: 18px; position: relative; }
+        .received .message-bubble { background: white; border: 1px solid #ddd; }
+        .sent .message-bubble { background: #4CAF50; color: white; }
+        .message-info { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-top: 5px; }
+        .sent .message-info { color: rgba(255,255,255,0.7); }
+        .message-input { padding: 15px; border-top: 1px solid #eee; display: flex; align-items: center; }
+        .message-input textarea { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; resize: none; min-height: 60px; }
+        .message-input button { background: #6A0DAD; color: white; border: none; border-radius: 4px; padding: 10px 15px; margin-left: 10px; cursor: pointer; }
+        .message-input button:hover { background: #5a0cad; }
+        
+        /* Support Tickets */
+        .support-tickets { display: none; flex: 1; flex-direction: column; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .tickets-header { background: #6A0DAD; color: white; padding: 15px; }
+        .tickets-table { width: 100%; border-collapse: collapse; }
+        .tickets-table th, .tickets-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .tickets-table th { background: #f2f2f2; font-weight: bold; }
+        .tickets-table tr:hover { background: #f9f9f9; }
+        .ticket-status { padding: 5px 10px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .status-open { background: #ffeb3b; color: #333; }
+        .status-pending { background: #2196F3; color: white; }
+        .status-resolved { background: #4CAF50; color: white; }
+        .status-closed { background: #f44336; color: white; }
+        .ticket-priority { padding: 5px 10px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .priority-low { background: #4CAF50; color: white; }
+        .priority-medium { background: #FFC107; color: #333; }
+        .priority-high { background: #f44336; color: white; }
+        
+        /* Tabs */
+        .tabs { display: flex; border-bottom: 1px solid #ddd; background: white; padding: 0 15px; border-radius: 8px 8px 0 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .tab { padding: 12px 20px; cursor: pointer; border: 1px solid transparent; margin-bottom: -1px; transition: all 0.3s; }
+        .tab:hover { background-color: #f9f9f9; }
+        .tab.active { border: 1px solid #ddd; border-bottom: 1px solid white; border-radius: 5px 5px 0 0; background: white; font-weight: bold; color: #6A0DAD; }
+        
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Messaging & Support</h1>
+        <a href="misdashboard.html" class="back-to-home"><i class="fas fa-home"></i></a>
+    </header>
+    
+    <div class="container">
+        <div class="side-menu">
+            <a href="performance-metrics.html"><i class="fas fa-chart-bar"></i> <span>Performance Metrics</span></a>
+            <a href="employee-management.html"><i class="fas fa-users"></i> <span>Employee Management</span></a>
+            <a href="orders-inventory.html"><i class="fas fa-box"></i> <span>Orders & Inventory</span></a>
+            <a href="financial-reports.html"><i class="fas fa-file-invoice-dollar"></i> <span>Financial Reports</span></a>
+            <a href="messaging-support.html"><i class="fas fa-envelope"></i> <span>Messaging & Support</span></a>
+        </div>
+        
+        <div class="main-content">
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'messaging')">Messaging</div>
+                <div class="tab" onclick="openTab(event, 'support')">Support Tickets</div>
+            </div>
+            
+            <div id="messaging" class="messaging-container">
+                <div class="conversation-list">
+                    <div class="conversation-header">
+                        <h3>Conversations</h3>
+                        <button class="new-conversation" title="New Conversation"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="conversation-search">
+                        <input type="text" placeholder="Search conversations...">
+                    </div>
+                    <div class="conversation-items">
+                        <div class="conversation-item active" data-conversation="regional-manager">
+                            <div class="conversation-title">Regional Manager</div>
+                            <div class="conversation-preview">Quarterly review meeting scheduled for next week...</div>
+                            <div class="conversation-meta">
+                                <span>Today, 10:30 AM</span>
+                                <span><i class="fas fa-check-double"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item unread" data-conversation="inventory-team">
+                            <div class="conversation-title">Inventory Team</div>
+                            <div class="conversation-preview">Urgent: Stock shortage for flu vaccines...</div>
+                            <div class="conversation-meta">
+                                <span>Today, 9:15 AM</span>
+                                <span><i class="fas fa-exclamation-circle"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item" data-conversation="hr-department">
+                            <div class="conversation-title">HR Department</div>
+                            <div class="conversation-preview">Please review the new employee training materials...</div>
+                            <div class="conversation-meta">
+                                <span>Yesterday, 3:45 PM</span>
+                                <span><i class="fas fa-check"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item" data-conversation="it-support">
+                            <div class="conversation-title">IT Support</div>
+                            <div class="conversation-preview">Your ticket #IT-4572 has been resolved...</div>
+                            <div class="conversation-meta">
+                                <span>Mar 28, 11:20 AM</span>
+                                <span><i class="fas fa-check"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item" data-conversation="pharmacy-staff">
+                            <div class="conversation-title">Pharmacy Staff Group</div>
+                            <div class="conversation-preview">Maria: I'll be late for my shift tomorrow...</div>
+                            <div class="conversation-meta">
+                                <span>Mar 27, 7:30 PM</span>
+                                <span><i class="fas fa-check-double"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="message-area">
+                    <div class="message-header">
+                        <div class="message-participants">Regional Manager</div>
+                        <div class="message-actions">
+                            <button title="Call"><i class="fas fa-phone"></i></button>
+                            <button title="Video Call"><i class="fas fa-video"></i></button>
+                            <button title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="message-display" id="message-display">
+                        <!-- Messages will be loaded here dynamically -->
+                        <div class="message received">
+                            <div class="message-bubble">
+                                Hi there, I wanted to remind you about the quarterly review meeting scheduled for next Wednesday at 2 PM.
+                            </div>
+                            <div class="message-info">
+                                <span>Regional Manager</span>
+                                <span>Today, 10:30 AM</span>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">
+                                Thanks for the reminder. I've prepared all the reports and will be ready for the meeting.
+                            </div>
+                            <div class="message-info">
+                                <span>You</span>
+                                <span>Today, 10:32 AM</span>
+                            </div>
+                        </div>
+                        <div class="message received">
+                            <div class="message-bubble">
+                                Great! Also, please bring the performance metrics for your team. We'll be discussing potential promotions.
+                            </div>
+                            <div class="message-info">
+                                <span>Regional Manager</span>
+                                <span>Today, 10:33 AM</span>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">
+                                Will do. I've already compiled the data and identified two strong candidates for advancement.
+                            </div>
+                            <div class="message-info">
+                                <span>You</span>
+                                <span>Today, 10:35 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-input">
+                        <textarea placeholder="Type your message here..." id="message-input"></textarea>
+                        <button id="send-button"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="support" class="support-tickets">
+                <div class="tickets-header">
+                    <h3>Support Tickets</h3>
+                </div>
+                <div style="padding: 20px;">
+                    <button style="background: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 15px;">
+                        <i class="fas fa-plus"></i> Create New Ticket
+                    </button>
+                    <table class="tickets-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Subject</th>
+                                <th>Department</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#IT-4572</td>
+                                <td>POS system crashing during peak hours</td>
+                                <td>IT Support</td>
+                                <td><span class="ticket-priority priority-high">High</span></td>
+                                <td><span class="ticket-status status-resolved">Resolved</span></td>
+                                <td>Mar 28, 2025</td>
+                            </tr>
+                            <tr>
+                                <td>#HR-2109</td>
+                                <td>Request for additional training materials</td>
+                                <td>Human Resources</td>
+                                <td><span class="ticket-priority priority-medium">Medium</span></td>
+                                <td><span class="ticket-status status-pending">Pending</span></td>
+                                <td>Mar 27, 2025</td>
+                            </tr>
+                            <tr>
+                                <td>#INV-3356</td>
+                                <td>Flu vaccine shortage</td>
+                                <td>Inventory</td>
+                                <td><span class="ticket-priority priority-high">High</span></td>
+                                <td><span class="ticket-status status-open">Open</span></td>
+                                <td>Mar 28, 2025</td>
+                            </tr>
+                            <tr>
+                                <td>#FAC-1287</td>
+                                <td>Broken refrigerator in storage</td>
+                                <td>Facilities</td>
+                                <td><span class="ticket-priority priority-medium">Medium</span></td>
+                                <td><span class="ticket-status status-pending">Pending</span></td>
+                                <td>Mar 25, 2025</td>
+                            </tr>
+                            <tr>
+                                <td>#FIN-0984</td>
+                                <td>Discrepancy in monthly financial report</td>
+                                <td>Finance</td>
+                                <td><span class="ticket-priority priority-low">Low</span></td>
+                                <td><span class="ticket-status status-closed">Closed</span></td>
+                                <td>Mar 20, 2025</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample conversation data
+        const conversations = {
+            'regional-manager': {
+                title: 'Regional Manager',
+                messages: [
+                    {
+                        sender: 'Regional Manager',
+                        text: 'Hi there, I wanted to remind you about the quarterly review meeting scheduled for next Wednesday at 2 PM.',
+                        time: 'Today, 10:30 AM',
+                        received: true
+                    },
+                    {
+                        sender: 'You',
+                        text: 'Thanks for the reminder. I\'ve prepared all the reports and will be ready for the meeting.',
+                        time: 'Today, 10:32 AM',
+                        received: false
+                    },
+                    {
+                        sender: 'Regional Manager',
+                        text: 'Great! Also, please bring the performance metrics for your team. We\'ll be discussing potential promotions.',
+                        time: 'Today, 10:33 AM',
+                        received: true
+                    },
+                    {
+                        sender: 'You',
+                        text: 'Will do. I\'ve already compiled the data and identified two strong candidates for advancement.',
+                        time: 'Today, 10:35 AM',
+                        received: false
+                    }
+                ]
+            },
+            'inventory-team': {
+                title: 'Inventory Team',
+                messages: [
+                    {
+                        sender: 'Inventory Team',
+                        text: 'Urgent: We have a stock shortage for flu vaccines. Only 20 doses remaining.',
+                        time: 'Today, 9:15 AM',
+                        received: true
+                    },
+                    {
+                        sender: 'You',
+                        text: 'Have you checked with our alternate supplier?',
+                        time: 'Today, 9:20 AM',
+                        received: false
+                    },
+                    {
+                        sender: 'Inventory Team',
+                        text: 'Yes, they can deliver 100 doses by tomorrow afternoon if we order within the hour.',
+                        time: 'Today, 9:22 AM',
+                        received: true
+                    }
+                ]
+            },
+            'hr-department': {
+                title: 'HR Department',
+                messages: [
+                    {
+                        sender: 'HR Department',
+                        text: 'Please review the new employee training materials and provide feedback by Friday.',
+                        time: 'Yesterday, 3:45 PM',
+                        received: true
+                    },
+                    {
+                        sender: 'You',
+                        text: 'I\'ll look at them this evening. Do you need feedback on all sections or just the pharmacy-specific ones?',
+                        time: 'Yesterday, 4:10 PM',
+                        received: false
+                    }
+                ]
+            },
+            'it-support': {
+                title: 'IT Support',
+                messages: [
+                    {
+                        sender: 'IT Support',
+                        text: 'Your ticket #IT-4572 about the POS system crashing has been resolved. Please confirm if everything is working now.',
+                        time: 'Mar 28, 11:20 AM',
+                        received: true
+                    }
+                ]
+            },
+            'pharmacy-staff': {
+                title: 'Pharmacy Staff Group',
+                messages: [
+                    {
+                        sender: 'Maria',
+                        text: 'I\'ll be late for my shift tomorrow - my car is in the shop. Should arrive by 10:30 instead of 9.',
+                        time: 'Mar 27, 7:30 PM',
+                        received: true
+                    },
+                    {
+                        sender: 'You',
+                        text: 'Thanks for letting me know. I\'ll adjust the schedule. Can you work an extra hour to make up the time?',
+                        time: 'Mar 27, 7:45 PM',
+                        received: false
+                    },
+                    {
+                        sender: 'Maria',
+                        text: 'Yes, I can stay until 6:30 if needed.',
+                        time: 'Mar 27, 8:05 PM',
+                        received: true
+                    }
+                ]
+            }
+        };
+
+        // Tab functionality
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            document.getElementById('messaging').style.display = 'none';
+            document.getElementById('support').style.display = 'none';
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content and mark tab as active
+            document.getElementById(tabName).style.display = 'flex';
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Initialize with messaging tab open
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('messaging').style.display = 'flex';
+            
+            // Set up conversation click handlers
+            setupConversationHandlers();
+        });
+
+        // Set up conversation click handlers
+        function setupConversationHandlers() {
+            const conversationItems = document.querySelectorAll('.conversation-item');
+            
+            conversationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    conversationItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Load the conversation
+                    const conversationId = this.getAttribute('data-conversation');
+                    loadConversation(conversationId);
+                });
+            });
+        }
+
+        // Load a conversation into the message area
+        function loadConversation(conversationId) {
+            const conversation = conversations[conversationId];
+            if (!conversation) return;
+            
+            // Update the header
+            document.querySelector('.message-participants').textContent = conversation.title;
+            
+            // Clear the message display
+            const messageDisplay = document.getElementById('message-display');
+            messageDisplay.innerHTML = '';
+            
+            // Add each message to the display
+            conversation.messages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${msg.received ? 'received' : 'sent'}`;
+                messageElement.innerHTML = `
+                    <div class="message-bubble">${msg.text}</div>
+                    <div class="message-info">
+                        <span>${msg.sender}</span>
+                        <span>${msg.time}</span>
+                    </div>
+                `;
+                messageDisplay.appendChild(messageElement);
+            });
+            
+            // Scroll to bottom
+            messageDisplay.scrollTop = messageDisplay.scrollHeight;
+        }
+
+        // Send message button handler
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+        
+        sendButton.addEventListener('click', sendMessage);
+        
+        // Allow sending message with Enter key (Shift+Enter for new line)
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const messageDisplay = document.getElementById('message-display');
+                const activeConversation = document.querySelector('.conversation-item.active');
+                
+                if (!activeConversation) return;
+                
+                const conversationId = activeConversation.getAttribute('data-conversation');
+                
+                // Create new message element
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message sent';
+                newMessage.innerHTML = `
+                    <div class="message-bubble">${messageText}</div>
+                    <div class="message-info">
+                        <span>You</span>
+                        <span>Just now</span>
+                    </div>
+                `;
+                
+                // Add to message display
+                messageDisplay.appendChild(newMessage);
+                
+                // Add to our conversation data (in a real app, this would go to the server)
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                conversations[conversationId].messages.push({
+                    sender: 'You',
+                    text: messageText,
+                    time: 'Today, ' + timeString,
+                    received: false
+                });
+                
+                // Clear input
+                messageInput.value = '';
+                
+                // Scroll to bottom
+                messageDisplay.scrollTop = messageDisplay.scrollHeight;
+                
+                // In a real app, this would send the message to the server
+            }
+        }
+    </script>
+</body>
+</html>

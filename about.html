@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About DigiHealth</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 18px; }
+        .content { padding: 20px; max-width: 800px; margin: auto; text-align: justify; flex-grow: 1; }
+        h1 { color: #4CAF50; text-align: center; }
+        h2 { color: #6A0DAD; text-align: center; margin-top: 30px; }
+        .ethics-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
+        .ethic-box { background: #4CAF50; padding: 15px; border-radius: 5px; width: 200px; text-align: center; font-weight: bold; }
+        .documents-container { display: flex; justify-content: center; gap: 20px; margin: 30px 0; flex-wrap: wrap; }
+        .document-card { 
+            background: white; 
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .document-card a {
+            color: #6A0DAD;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .document-card a:hover {
+            text-decoration: underline;
+        }
+        .document-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .team-member {
+            width: 180px;
+            text-align: center;
+        }
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 60%;
+            object-fit: cover;
+            border: 3px solid #6A0DAD;
+            margin-bottom: 10px;
+        }s
+        .team-photo-placeholder::before {
+    content: "LL";
+    font-size: 24px;
+        }
+        .team-name {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .team-position {
+            color: #4CAF50;
+            font-size: 14px;
+        }
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>About DigiHealth</h1>
+    </header>
+    <nav>
+        <a href="index.htm">Home</a>
+        <a href="about.html">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <section class="content">
+        <h1>Our Mission</h1>
+        <p>"Empowering Lesotho through accessible, trusted health information that unites modern medicine with traditional healing."</p>
+        
+        <h1>Who We Are</h1>
+        <p>DigiHealth is a digital firm focused on providing centralized, accessible health information that bridges modern medical practices with local traditional healing methods.</p>
+        
+        <h1>Our Vision</h1>
+        <p>We aim to improve health literacy, foster patient engagement, and support better clinical decisions through reliable, up-to-date, and culturally sensitive content.</p>
+        
+        <h2>Our Documents</h2>
+        <div class="documents-container">
+            <div class="document-card">
+                <div class="document-icon">📜</div>
+                <a href="DigiPharm_Mission_Statement.pdf" download="DigiPharm_Mission_Statement.pdf">Mission Statement</a>
+            </div>
+            <div class="document-card">
+                <div class="document-icon">📋</div>
+                <a href="DigiPharm_SOP.pdf" download="DigiPharm_SOP.pdf">Standard Operating Procedures</a>
+            </div>
+            <div class="document-card">
+                <div class="document-icon">🔒</div>
+                <a href="DigiPharm_AUP.pdf" download="DigiPharm_AUP.pdf">Acceptable Use Policy</a>
+            </div>
+            <div class="document-card">
+                <div class="document-icon">⚖️</div>
+                <a href="DigiPharm_CoE.pdf" download="DigiPharm_CoE.pdf">Code of Ethics</a>
+            </div>
+        </div>
+        
+        <h1>Code of Ethics</h1>
+        <div class="ethics-container">
+            <div class="ethic-box">Integrity</div>
+            <div class="ethic-box">Cultural Sensitivity</div>
+            <div class="ethic-box">Transparency</div>
+            <div class="ethic-box">Privacy & Confidentiality</div>
+            <div class="ethic-box">Customer Respect</div>
+            <div class="ethic-box">Employee Fairness</div>
+        </div>
+        
+        <h2>Meet Our Team</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="Pitso.jpg" alt="Team Member" class="team-photo">
+                <div class="team-name">Pitso Pitso</div>
+                <div class="team-position">Lead Programmer</div>
+            </div>
+            <div class="team-member">
+                <img src="Poelo.jpg" alt="Team Member" class="team-photo">
+                <div class="team-name">Koatsa Poelo</div>
+                <div class="team-position">DigiPharm Group Leader</div>
+            </div>
+            <div class="team-member">
+                <img src="Ramohlanka.jpg" alt="Team Member" class="team-photo">
+                <div class="team-name">Ramohlanka Thapelo</div>
+                <div class="team-position">Procurement Officer</div>
+            </div>
+            <div class="team-member">
+                <div class="team-photo-placeholder"></div>
+                <div class="team-name">Lenyolosa L.E.</div>
+                <div class="team-position">Technology Specialist</div>
+            </div>
+        </div>
+    </section>
+    <footer id="contact">
+        <p>Contact us at info@digihealth.com | Call: 987-654-3210</p>
+        <p>&copy; 2025 DigiHealth. All rights reserved.</p>
+    </footer>
+</body>
+</html>

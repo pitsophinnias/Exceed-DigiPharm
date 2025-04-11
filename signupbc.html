@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Book Consultation - Exceed DigiPharm</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; font-size: 16px; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; }
+        section { padding: 20px; margin: 20px auto; width: 50%; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: center; flex: 1; }
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+        input[type="text"], input[type="email"], input[type="password"] { padding: 10px; width: 100%; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        .btn-submit { background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; }
+        .btn-submit:hover { background: #45a049; }
+        .newsletter { margin-top: 15px; text-align: left; }
+        .newsletter label { margin-right: 10px; }
+        .login-link { margin-top: 15px; }
+        .login-link a { color: #4CAF50; text-decoration: none; }
+        .login-link a:hover { text-decoration: underline; }
+        .password-info { color: red; font-size: 14px; text-align: left; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sign Up - Book Consultation</h1>
+    </header>
+    <nav>
+        <a href="services.html">Back to Services</a>
+    </nav>
+    <section>
+        <h2>Create Your Account</h2>
+        <form action="loginbc.html">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <div id="password-info" class="password-info">
+                Minimum 8 characters, must include special characters and numbers.
+            </div>
+            <div class="newsletter">
+                <label for="newsletter">Subscribe to our newsletter?</label><br>
+                <input type="radio" id="yes" name="newsletter" value="yes" required> Yes
+                <input type="radio" id="no" name="newsletter" value="no"> No
+            </div>
+            <button type="submit" class="btn-submit">Sign Up</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="loginbc.html">Log In</a></p>
+    </section>
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordInfo = document.getElementById('password-info');
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const minLength = password.length >= 8;
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            if (minLength && hasSpecialChar && hasNumber) {
+                passwordInfo.style.display = 'none';
+            } else {
+                passwordInfo.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Management - Exceed Pharmacy Roma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #6A0DAD;
+            --accent-color: #FFD700;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background-color: var(--light-color); 
+            color: #333;
+        }
+        
+        header { 
+            background: var(--primary-color); 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .home-icon {
+                    position: absolute; 
+                    top: 35px; 
+                    right: 0px; 
+                    color: white; 
+                    font-size: 20px; 
+                    transition: transform 0.3s ease; 
+                }
+
+        .home-icon:hover {
+                     transform: scale(1.2);
+                     }
+
+        .user-controls { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            display: flex; 
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-controls a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 20px; 
+            transition: all 0.3s;
+        }
+        
+        .user-controls a:hover { 
+            color: var(--accent-color); 
+            transform: scale(1.1);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        nav { 
+            background: var(--secondary-color); 
+            padding: 10px; 
+            text-align: center; 
+            font-size: 16px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container { 
+            display: flex; 
+            flex: 1; 
+        }
+        
+        .side-menu { 
+            width: 80px; 
+            background: var(--dark-color); 
+            color: white; 
+            padding: 20px 10px; 
+            transition: width 0.3s ease; 
+            overflow: hidden; 
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .side-menu:hover { 
+            width: 250px; 
+        }
+        
+        .side-menu a { 
+            display: flex; 
+            align-items: center; 
+            color: white; 
+            padding: 12px 10px; 
+            text-decoration: none; 
+            margin-bottom: 5px; 
+            border-radius: 5px; 
+            transition: all 0.3s; 
+        }
+        
+        .side-menu a:hover { 
+            background: var(--primary-color); 
+        }
+        
+        .side-menu a i { 
+            font-size: 22px; 
+            margin-right: 15px; 
+            width: 30px; 
+            text-align: center; 
+        }
+        
+        .side-menu a span { 
+            display: none; 
+            font-size: 16px;
+        }
+        
+        .side-menu:hover a span { 
+            display: inline; 
+        }
+        
+        .main-content { 
+            flex: 1; 
+            padding: 25px; 
+            display: flex; 
+            flex-direction: column;
+        }
+        
+        .team-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+        }
+        
+        .team-nav {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .team-nav h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .team-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .team-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .team-menu a {
+            display: block;
+            padding: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .team-menu a:hover, 
+        .team-menu a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .team-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+        }
+        
+        .org-chart {
+            margin-top: 20px;
+        }
+        
+        .org-level {
+            margin-bottom: 30px;
+        }
+        
+        .org-level h4 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .org-employees {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .employee-card {
+            background: #f9f9f9;
+            border-radius: 6px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .employee-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .employee-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .employee-info h5 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--dark-color);
+        }
+        
+        .employee-info p {
+            margin: 3px 0 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .employee-details {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .employee-details p {
+            margin: 5px 0;
+        }
+        
+        .employee-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        
+        .employee-actions a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .employee-actions a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-header h2 {
+            color: var(--secondary-color);
+            margin: 0;
+        }
+        
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #3e8e41;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #5a0a9c;
+        }
+        
+        footer { 
+            background: var(--dark-color); 
+            color: white; 
+            text-align: center; 
+            padding: 15px; 
+            margin-top: auto; 
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .side-menu {
+                width: 100%;
+                padding: 10px;
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .side-menu:hover {
+                width: 100%;
+            }
+            
+            .side-menu a {
+                flex-direction: column;
+                padding: 10px 5px;
+                font-size: 12px;
+            }
+            
+            .side-menu a i {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            
+            .side-menu a span {
+                display: inline;
+                font-size: 12px;
+            }
+            
+            .team-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Exceed Pharmacy Roma</h1>
+        <div class="user-controls">
+            <a href="ess-dashboard.html" class="home-icon"><i class="fas fa-home"></i></a>
+            <div class="user-profile">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+            </div>
+            <a href="#"><i class="fas fa-bell"></i></a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </header>
+    
+    <nav>
+        <span>Team Management Portal</span>
+    </nav>
+    
+    <div class="container">
+        <div class="side-menu">
+            <a href="#"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="#"><i class="fas fa-users"></i><span>Team</span></a>
+            <a href="#"><i class="fas fa-calendar-alt"></i><span>Schedule</span></a>
+            <a href="#"><i class="fas fa-chart-line"></i><span>Performance</span></a>
+            <a href="#"><i class="fas fa-file-alt"></i><span>Reports</span></a>
+            <a href="#"><i class="fas fa-cog"></i><span>Settings</span></a>
+        </div>
+        
+        <div class="main-content">
+            <div class="page-header">
+                <h2>Team Management</h2>
+                <button class="btn"><i class="fas fa-plus"></i> Add Team Member</button>
+            </div>
+            
+            <div class="team-container">
+                <div class="team-nav">
+                    <h3>Team Sections</h3>
+                    <ul class="team-menu">
+                        <li><a href="#" class="active"><i class="fas fa-sitemap"></i> Organization</a></li>
+                        <li><a href="#"><i class="fas fa-list"></i> Staff Directory</a></li>
+                        <li><a href="#"><i class="fas fa-user-plus"></i> New Hires</a></li>
+                        <li><a href="#"><i class="fas fa-chart-pie"></i> Team Analytics</a></li>
+                        <li><a href="#"><i class="fas fa-tasks"></i> Roles & Permissions</a></li>
+                        <li><a href="#"><i class="fas fa-calendar-check"></i> Time Off</a></li>
+                    </ul>
+                </div>
+                
+                <div class="team-content">
+                    <h3>Organization Chart</h3>
+                    <p>View and manage your pharmacy team structure and reporting lines.</p>
+                    
+                    <div class="org-chart">
+                        <div class="org-level">
+                            <h4>Pharmacy Manager</h4>
+                            <div class="org-employees">
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">JD</div>
+                                        <div class="employee-info">
+                                            <h5>John Doe</h5>
+                                            <p>Pharmacy Manager</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> john.doe@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                                        <p><i class="fas fa-clock"></i> Full-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="org-level">
+                            <h4>Pharmacists</h4>
+                            <div class="org-employees">
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">SM</div>
+                                        <div class="employee-info">
+                                            <h5>Sarah Miller</h5>
+                                            <p>Senior Pharmacist</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> sarah.m@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 234-5678</p>
+                                        <p><i class="fas fa-clock"></i> Full-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">RJ</div>
+                                        <div class="employee-info">
+                                            <h5>Robert Johnson</h5>
+                                            <p>Pharmacist</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> robert.j@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 345-6789</p>
+                                        <p><i class="fas fa-clock"></i> Part-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="org-level">
+                            <h4>Pharmacy Technicians</h4>
+                            <div class="org-employees">
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">MB</div>
+                                        <div class="employee-info">
+                                            <h5>Maria Brown</h5>
+                                            <p>Lead Technician</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> maria.b@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 456-7890</p>
+                                        <p><i class="fas fa-clock"></i> Full-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">TW</div>
+                                        <div class="employee-info">
+                                            <h5>Thomas Wilson</h5>
+                                            <p>Pharmacy Technician</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> thomas.w@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 567-8901</p>
+                                        <p><i class="fas fa-clock"></i> Full-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="employee-card">
+                                    <div class="employee-header">
+                                        <div class="employee-avatar">LG</div>
+                                        <div class="employee-info">
+                                            <h5>Lisa Green</h5>
+                                            <p>Pharmacy Technician</p>
+                                        </div>
+                                    </div>
+                                    <div class="employee-details">
+                                        <p><i class="fas fa-envelope"></i> lisa.g@exceedpharmacy.com</p>
+                                        <p><i class="fas fa-phone"></i> (555) 678-9012</p>
+                                        <p><i class="fas fa-clock"></i> Part-time</p>
+                                    </div>
+                                    <div class="employee-actions">
+                                        <a href="#"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="#"><i class="fas fa-eye"></i> View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Exceed Pharmacy Roma. All rights reserved.</p>
+    </footer>
+</body>
+</html>

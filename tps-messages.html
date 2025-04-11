@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - Exceed DigiPharm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #4CAF50; 
+            --secondary: #6A0DAD; 
+            --light: #f4f4f4; 
+            --white: #ffffff; 
+            --dark: #333333; 
+            --accent: #2196F3; 
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background: linear-gradient(to bottom right, #f0f4f8, #e0e7ff); 
+        }
+        header { 
+            background: linear-gradient(135deg, var(--primary), #2E7D32); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            position: relative; 
+        }
+        .home-icon { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            color: white; 
+            font-size: 24px; 
+            transition: transform 0.3s ease; 
+        }
+        .home-icon:hover { 
+            transform: scale(1.2); 
+        }
+        .container { 
+            display: flex; 
+            flex: 1; 
+            padding: 20px; 
+        }
+        .main-content { 
+            flex: 1; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        footer { 
+            background: linear-gradient(135deg, var(--secondary), #4B0082); 
+            color: white; 
+            text-align: center; 
+            padding: 20px; 
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.2); 
+        }
+        .messaging-container { 
+            display: flex; 
+            flex: 1; 
+            gap: 20px; 
+            background: var(--white); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            transition: transform 0.3s ease; 
+        }
+        .messaging-container:hover { 
+            transform: translateY(-5px); 
+        }
+        .conversation-list { 
+            width: 320px; 
+            background: var(--white); 
+            border-radius: 12px 0 0 12px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+        }
+        .conversation-header { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .new-conversation { 
+            background: none; 
+            border: none; 
+            color: white; 
+            cursor: pointer; 
+            font-size: 18px; 
+            transition: transform 0.3s ease; 
+        }
+        .new-conversation:hover { 
+            transform: scale(1.1); 
+        }
+        .conversation-search { 
+            padding: 10px; 
+            border-bottom: 1px solid #eee; 
+        }
+        .conversation-search input { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            font-size: 16px; 
+            transition: border-color 0.3s ease; 
+        }
+        .conversation-search input:focus { 
+            border-color: var(--accent); 
+            outline: none; 
+        }
+        .conversation-items { 
+            overflow-y: auto; 
+            max-height: calc(100vh - 250px); 
+        }
+        .conversation-item { 
+            padding: 15px; 
+            border-bottom: 1px solid #eee; 
+            cursor: pointer; 
+            transition: background 0.3s; 
+            display: none; /* Hidden by default, shown by JS if matches search */
+        }
+        .conversation-item.visible { 
+            display: block; 
+        }
+        .conversation-item:hover { 
+            background: #f9f9f9; 
+        }
+        .conversation-item.active { 
+            background: #e6f7e6; 
+            border-left: 4px solid var(--primary); 
+        }
+        .conversation-item.unread { 
+            font-weight: bold; 
+        }
+        .conversation-meta { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 5px; 
+            font-size: 12px; 
+            color: #666; 
+        }
+        .conversation-preview { 
+            color: #666; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        .message-area { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            background: var(--white); 
+            border-radius: 0 12px 12px 0; 
+            overflow: hidden; 
+        }
+        .message-header { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .message-participants { 
+            font-weight: bold; 
+        }
+        .message-actions button { 
+            background: none; 
+            border: none; 
+            color: white; 
+            cursor: pointer; 
+            margin-left: 10px; 
+            font-size: 18px; 
+            transition: transform 0.3s ease; 
+        }
+        .message-actions button:hover { 
+            transform: scale(1.1); 
+        }
+        .message-display { 
+            flex: 1; 
+            padding: 20px; 
+            overflow-y: auto; 
+            background: #f9f9f9; 
+        }
+        .message { 
+            margin-bottom: 15px; 
+            max-width: 70%; 
+        }
+        .message.received { 
+            align-self: flex-start; 
+        }
+        .message.sent { 
+            align-self: flex-end; 
+        }
+        .message-bubble { 
+            padding: 12px 18px; 
+            border-radius: 20px; 
+            position: relative; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        .received .message-bubble { 
+            background: var(--white); 
+            border: 1px solid #ddd; 
+        }
+        .sent .message-bubble { 
+            background: var(--primary); 
+            color: white; 
+        }
+        .message-info { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 12px; 
+            color: #666; 
+            margin-top: 5px; 
+        }
+        .sent .message-info { 
+            color: rgba(255,255,255,0.7); 
+        }
+        .message-input { 
+            padding: 15px; 
+            border-top: 1px solid #eee; 
+            display: flex; 
+            align-items: center; 
+            background: var(--white); 
+        }
+        .message-input textarea { 
+            flex: 1; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            resize: none; 
+            min-height: 60px; 
+            font-size: 16px; 
+        }
+        .message-input button { 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            padding: 12px 20px; 
+            margin-left: 10px; 
+            cursor: pointer; 
+            transition: background 0.3s ease; 
+        }
+        .message-input button:hover { 
+            background: #1976D2; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Messages</h1>
+        <a href="tps-dashboard.html" class="home-icon"><i class="fas fa-home"></i></a>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="messaging-container">
+                <div class="conversation-list">
+                    <div class="conversation-header">
+                        <h3>Conversations</h3>
+                        <button class="new-conversation" title="New Conversation" onclick="addNewConversation()"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="conversation-search">
+                        <input type="text" id="search-input" placeholder="Search conversations..." onkeyup="searchConversations()">
+                    </div>
+                    <div class="conversation-items" id="conversation-items">
+                        <div class="conversation-item visible" data-conversation="pharmacy-staff">
+                            <div class="conversation-title">Pharmacy Staff Group</div>
+                            <div class="conversation-preview">John: Can someone cover my shift tomorrow?</div>
+                            <div class="conversation-meta">
+                                <span>Today, 9:45 AM</span>
+                                <span><i class="fas fa-check-double"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item visible unread" data-conversation="inventory-team">
+                            <div class="conversation-title">Inventory Team</div>
+                            <div class="conversation-preview">Urgent: Low stock on antibiotics...</div>
+                            <div class="conversation-meta">
+                                <span>Today, 8:30 AM</span>
+                                <span><i class="fas fa-exclamation-circle"></i></span>
+                            </div>
+                        </div>
+                        <div class="conversation-item visible" data-conversation="district-manager">
+                            <div class="conversation-title">District Manager</div>
+                            <div class="conversation-preview">Please send Q1 performance report...</div>
+                            <div class="conversation-meta">
+                                <span>Yesterday, 4:15 PM</span>
+                                <span><i class="fas fa-check"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-area">
+                    <div class="message-header">
+                        <div class="message-participants">Pharmacy Staff Group</div>
+                        <div class="message-actions">
+                            <button title="Call"><i class="fas fa-phone"></i></button>
+                            <button title="Video Call"><i class="fas fa-video"></i></button>
+                            <button title="More options"><i class="fas fa-ellipsis-v"></i></button>
+                        </div>
+                    </div>
+                    <div class="message-display" id="message-display">
+                        <div class="message received">
+                            <div class="message-bubble">
+                                Hey team, can someone cover my shift tomorrow from 2-6 PM? I have a doctor's appointment.
+                            </div>
+                            <div class="message-info">
+                                <span>John</span>
+                                <span>Today, 9:45 AM</span>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">
+                                I can cover it, John. Just let me know if you need anything else.
+                            </div>
+                            <div class="message-info">
+                                <span>You</span>
+                                <span>Today, 9:50 AM</span>
+                            </div>
+                        </div>
+                        <div class="message received">
+                            <div class="message-bubble">
+                                Thanks! I owe you one.
+                            </div>
+                            <div class="message-info">
+                                <span>John</span>
+                                <span>Today, 9:52 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-input">
+                        <textarea placeholder="Type your message here..." id="message-input"></textarea>
+                        <button id="send-button"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const conversations = {
+            'pharmacy-staff': {
+                title: 'Pharmacy Staff Group',
+                messages: [
+                    { sender: 'John', text: 'Hey team, can someone cover my shift tomorrow from 2-6 PM? I have a doctor\'s appointment.', time: 'Today, 9:45 AM', received: true },
+                    { sender: 'You', text: 'I can cover it, John. Just let me know if you need anything else.', time: 'Today, 9:50 AM', received: false },
+                    { sender: 'John', text: 'Thanks! I owe you one.', time: 'Today, 9:52 AM', received: true }
+                ]
+            },
+            'inventory-team': {
+                title: 'Inventory Team',
+                messages: [
+                    { sender: 'Inventory Team', text: 'Urgent: Low stock on antibiotics (Amoxicillin). Only 15 packs left.', time: 'Today, 8:30 AM', received: true },
+                    { sender: 'You', text: 'Can you place an emergency order with Supplier B? We need at least 50 more by tomorrow.', time: 'Today, 8:35 AM', received: false }
+                ]
+            },
+            'district-manager': {
+                title: 'District Manager',
+                messages: [
+                    { sender: 'District Manager', text: 'Please send me the Q1 performance report by end of day tomorrow.', time: 'Yesterday, 4:15 PM', received: true },
+                    { sender: 'You', text: 'Working on it now. Should have it to you by noon tomorrow.', time: 'Yesterday, 4:20 PM', received: false }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupConversationHandlers();
+            loadConversation('pharmacy-staff'); // Load default conversation
+            updateConversationList(); // Initial render of conversations
+        });
+
+        function setupConversationHandlers() {
+            const conversationItems = document.querySelectorAll('.conversation-item');
+            conversationItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    conversationItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    const conversationId = this.getAttribute('data-conversation');
+                    loadConversation(conversationId);
+                });
+            });
+        }
+
+        function loadConversation(conversationId) {
+            const conversation = conversations[conversationId];
+            if (!conversation) return;
+
+            document.querySelector('.message-participants').textContent = conversation.title;
+            const messageDisplay = document.getElementById('message-display');
+            messageDisplay.innerHTML = '';
+
+            conversation.messages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${msg.received ? 'received' : 'sent'}`;
+                messageElement.innerHTML = `
+                    <div class="message-bubble">${msg.text}</div>
+                    <div class="message-info">
+                        <span>${msg.sender}</span>
+                        <span>${msg.time}</span>
+                    </div>
+                `;
+                messageDisplay.appendChild(messageElement);
+            });
+
+            messageDisplay.scrollTop = messageDisplay.scrollHeight;
+        }
+
+        const sendButton = document.getElementById('send-button');
+        const messageInput = document.getElementById('message-input');
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const messageDisplay = document.getElementById('message-display');
+                const activeConversation = document.querySelector('.conversation-item.active');
+                if (!activeConversation) return;
+
+                const conversationId = activeConversation.getAttribute('data-conversation');
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message sent';
+                newMessage.innerHTML = `
+                    <div class="message-bubble">${messageText}</div>
+                    <div class="message-info">
+                        <span>You</span>
+                        <span>Just now</span>
+                    </div>
+                `;
+
+                messageDisplay.appendChild(newMessage);
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                conversations[conversationId].messages.push({
+                    sender: 'You',
+                    text: messageText,
+                    time: 'Today, ' + timeString,
+                    received: false
+                });
+
+                messageInput.value = '';
+                messageDisplay.scrollTop = messageDisplay.scrollHeight;
+
+                updateConversationList();
+            }
+        }
+
+        function addNewConversation() {
+            const title = prompt("Enter the new conversation title (e.g., 'Supplier X'):");
+            if (title && !conversations[title.toLowerCase().replace(/\s+/g, '-')]) {
+                const conversationId = title.toLowerCase().replace(/\s+/g, '-');
+                conversations[conversationId] = {
+                    title: title,
+                    messages: []
+                };
+                updateConversationList();
+                loadConversation(conversationId);
+                const conversationItems = document.querySelectorAll('.conversation-item');
+                conversationItems.forEach(item => item.classList.remove('active'));
+                document.querySelector(`[data-conversation="${conversationId}"]`).classList.add('active');
+            } else if (title) {
+                alert("A conversation with this title already exists!");
+            }
+        }
+
+        function updateConversationList() {
+            const conversationItemsContainer = document.getElementById('conversation-items');
+            conversationItemsContainer.innerHTML = '';
+
+            Object.keys(conversations).forEach(id => {
+                const convo = conversations[id];
+                const lastMessage = convo.messages.length > 0 ? convo.messages[convo.messages.length - 1] : null;
+                const preview = lastMessage ? `${lastMessage.sender}: ${lastMessage.text}` : 'No messages yet';
+                const time = lastMessage ? lastMessage.time : 'N/A';
+                const isUnread = convo.messages.some(msg => msg.received && !msg.read); // Assuming 'read' could be added later
+
+                const item = document.createElement('div');
+                item.className = `conversation-item visible ${isUnread ? 'unread' : ''}`;
+                item.setAttribute('data-conversation', id);
+                item.innerHTML = `
+                    <div class="conversation-title">${convo.title}</div>
+                    <div class="conversation-preview">${preview}</div>
+                    <div class="conversation-meta">
+                        <span>${time}</span>
+                        <span><i class="fas ${isUnread ? 'fa-exclamation-circle' : 'fa-check-double'}"></i></span>
+                    </div>
+                `;
+                conversationItemsContainer.appendChild(item);
+            });
+
+            setupConversationHandlers(); // Re-attach event listeners to new items
+        }
+
+        function searchConversations() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const conversationItems = document.querySelectorAll('.conversation-item');
+
+            conversationItems.forEach(item => {
+                const title = item.querySelector('.conversation-title').textContent.toLowerCase();
+                const preview = item.querySelector('.conversation-preview').textContent.toLowerCase();
+                if (title.includes(searchInput) || preview.includes(searchInput)) {
+                    item.classList.add('visible');
+                } else {
+                    item.classList.remove('visible');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiPharm - Your Digital Pharmacy</title>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #6A0DAD;
+            --light: #f4f4f4;
+            --white: #ffffff;
+            --dark: #333333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #2E7D32);
+            color: var(--white);
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pharmacy-name {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        nav {
+            background: var(--secondary);
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--light);
+            flex: 1;
+            background-image: linear-gradient(rgba(244,244,244,0.9), rgba(244,244,244,0.9)), 
+                              url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero h1 {
+            color: var(--primary);
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .hero p {
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .services {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 40px 20px;
+            gap: 30px;
+            background-color: var(--white);
+        }
+        
+        .service {
+            background: var(--white);
+            padding: 30px;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .service h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 0;
+        }
+        
+        .service p {
+            color: var(--dark);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--secondary), #4B0082);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            width: 100%;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        .social-media {
+            margin: 20px 0;
+        }
+        
+        .social-media a {
+            font-size: 24px;
+            margin: 0 15px;
+            color: var(--white);
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-media a:hover {
+            transform: scale(1.2);
+        }
+        
+        .business-tabs {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .business-tabs a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .business-tabs a:hover {
+            background-color: #5a0a9e;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DigiPharm</h1>
+        <p>Dedicated to health and wellness</p>
+        <div class="pharmacy-name">Exceed Pharmacy Roma</div>
+    </header>
+    <nav>
+        <a href="index.htm">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    
+    <div class="business-tabs">
+        <a href="supplier-login.html">Supplier Portal</a>
+        <a href="management-login.html">Management Portal</a>
+    </div>
+    
+    <section class="hero" id="home">
+        <h1>Empowering Your Wellness</h1>
+        <p>Your trusted digital pharmacy for reliable prescriptions, health advice, and more.</p>
+    </section>
+    
+    <section class="services" id="services">
+        <div class="service">
+            <div class="service-icon">
+                <i class="fas fa-prescription-bottle-alt"></i>
+            </div>
+            <h3>Prescription Fulfillment</h3>
+            <p>Easy and quick online prescription orders with home delivery.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">
+                <i class="fas fa-comment-medical"></i>
+            </div>
+            <h3>Health Advisory</h3>
+            <p>Get professional medication counseling and remote consultations.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <h3>Online Store</h3>
+            <p>Shop over-the-counter medicines and wellness products from anywhere.</p>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <p>Contact us at support@digipharm.com | Call: 123-456-7890</p>
+        <div class="social-media">
+            <a href="https://facebook.com/digipharm" target="_blank"><i class="fab fa-facebook-square"></i></a>
+            <a href="https://instagram.com/digipharm" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/digipharm" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2025 DigiPharm. All rights reserved.</p>
+    </footer>
+</body>
+</html>

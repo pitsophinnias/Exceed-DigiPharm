@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Exceed Pharmacy Roma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #6A0DAD;
+            --accent-color: #FFD700;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --danger-color: #f44336;
+            --warning-color: #ff9800;
+            --info-color: #2196F3;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background-color: var(--light-color); 
+            color: var(--dark-color);
+        }
+        
+        header { 
+            background: var(--primary-color); 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .home-icon {
+                    position: absolute; 
+                    top: 35px; 
+                    right: 0px; 
+                    color: white; 
+                    font-size: 20px; 
+                    transition: transform 0.3s ease; 
+                }
+
+        .home-icon:hover {
+                     transform: scale(1.2);
+                     }
+
+        .user-controls { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; 
+            display: flex; 
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-controls a { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 20px; 
+            transition: all 0.3s;
+        }
+        
+        .user-controls a:hover { 
+            color: var(--accent-color); 
+            transform: scale(1.1);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        nav { 
+            background: var(--secondary-color); 
+            padding: 10px; 
+            text-align: center; 
+            font-size: 16px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .container { 
+            display: flex; 
+            flex: 1; 
+        }
+        
+        .side-menu { 
+            width: 80px; 
+            background: var(--dark-color); 
+            color: white; 
+            padding: 20px 10px; 
+            transition: width 0.3s ease; 
+            overflow: hidden; 
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .side-menu:hover { 
+            width: 250px; 
+        }
+        
+        .side-menu a { 
+            display: flex; 
+            align-items: center; 
+            color: white; 
+            padding: 12px 10px; 
+            text-decoration: none; 
+            margin-bottom: 5px; 
+            border-radius: 5px; 
+            transition: all 0.3s; 
+        }
+        
+        .side-menu a:hover { 
+            background: var(--primary-color); 
+        }
+        
+        .side-menu a i { 
+            font-size: 22px; 
+            margin-right: 15px; 
+            width: 30px; 
+            text-align: center; 
+        }
+        
+        .side-menu a span { 
+            display: none; 
+            font-size: 16px;
+        }
+        
+        .side-menu:hover a span { 
+            display: inline; 
+        }
+        
+        .main-content { 
+            flex: 1; 
+            padding: 25px; 
+        }
+        
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .page-header h2 {
+            margin: 0;
+            color: var(--secondary-color);
+        }
+        
+        .page-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid #ddd;
+            color: var(--dark-color);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Content Cards */
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            color: var(--secondary-color);
+        }
+        
+        /* Reports Specific Styles */
+        .report-filters {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .filter-group select, 
+        .filter-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .report-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .report-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .report-item:hover {
+            background: #f9f9f9;
+        }
+        
+        .report-info {
+            flex: 1;
+        }
+        
+        .report-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .report-meta {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .report-actions {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reports</h1>
+        <div class="user-controls">
+            <a href="ess-dashboard.html" class="home-icon"><i class="fas fa-home"></i></a>
+            <a href="#" title="Notifications"><i class="fas fa-bell"></i></a>
+            <a href="#" title="Settings"><i class="fas fa-cog"></i></a>
+            <div class="user-profile">
+                <div class="user-avatar">JD</div>
+                <span class="user-name">John Doe</span>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <span>Last updated: <span id="current-time">March 31, 2025 - 10:15 AM</span></span>
+    </nav>
+
+    
+    <div class="container">
+        <div class="side-menu">
+            <a href="executive-strategy.html"><i class="fas fa-chess"></i> <span>Strategic Planning</span></a>
+            <a href="executive-finance.html"><i class="fas fa-chart-line"></i> <span>Financial Overview</span></a>
+            <a href="executive-hr.html"><i class="fas fa-users-cog"></i> <span>HR Analytics</span></a>
+            <a href="executive-operations.html"><i class="fas fa-clipboard-list"></i> <span>Operations</span></a>
+            <a href="executive-ess.html"><i class="fas fa-user-tie"></i> <span>Employee Services</span></a>
+            <a href="executive-reports.html" class="active"><i class="fas fa-file-alt"></i> <span>Reports</span></a>
+        </div>
+        
+        <div class="main-content">
+            <div class="page-header">
+                <h2>Report Center</h2>
+                <div class="page-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Report
+                    </button>
+                </div>
+            </div>
+            
+            <div class="report-filters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Report Type</label>
+                        <select>
+                            <option>All Reports</option>
+                            <option>Financial</option>
+                            <option>Operational</option>
+                            <option>HR</option>
+                            <option>Inventory</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Time Period</label>
+                        <select>
+                            <option>Last 30 Days</option>
+                            <option>Last Quarter</option>
+                            <option>Last Year</option>
+                            <option>Custom Range</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Department</label>
+                        <select>
+                            <option>All Departments</option>
+                            <option>Pharmacy</option>
+                            <option>Retail</option>
+                            <option>Management</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" placeholder="Search reports...">
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Apply Filters
+                </button>
+            </div>
+            
+            <div class="content-card">
+                <h3>Available Reports</h3>
+                <ul class="report-list">
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Q1 Financial Summary</div>
+                            <div class="report-meta">Generated: March 31, 2025 | Type: Financial</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Employee Turnover Analysis</div>
+                            <div class="report-meta">Generated: March 15, 2025 | Type: HR</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Inventory Status Report</div>
+                            <div class="report-meta">Generated: March 28, 2025 | Type: Operational</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Customer Satisfaction Survey Results</div>
+                            <div class="report-meta">Generated: March 10, 2025 | Type: Customer</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Prescription Volume Trends</div>
+                            <div class="report-meta">Generated: February 28, 2025 | Type: Operational</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content-card">
+                <h3>Scheduled Reports</h3>
+                <ul class="report-list">
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Monthly Financial Statement</div>
+                            <div class="report-meta">Next run: April 5, 2025 | Recipients: 5</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="report-item">
+                        <div class="report-info">
+                            <div class="report-title">Weekly Inventory Alert</div>
+                            <div class="report-meta">Next run: April 2, 2025 | Recipients: 3</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved. | Version 3.2.1</p>
+    </footer>
+
+    <script>
+        // Report actions
+        document.querySelectorAll('.report-actions button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.querySelector('i').className.split(' ')[1];
+                const reportTitle = this.closest('.report-item').querySelector('.report-title').textContent;
+                
+                if(action === 'eye') {
+                    alert(`Viewing report: ${reportTitle}`);
+                } else if(action === 'download') {
+                    alert(`Downloading report: ${reportTitle}`);
+                } else if(action === 'edit') {
+                    alert(`Editing scheduled report: ${reportTitle}`);
+                }
+            });
+        });
+        
+        // Report item click
+        document.querySelectorAll('.report-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const reportTitle = this.querySelector('.report-title').textContent;
+                alert(`Showing details for: ${reportTitle}`);
+            });
+        });
+    </script>
+</body>
+</html>

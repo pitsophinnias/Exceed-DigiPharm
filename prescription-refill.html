@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Refill - Exceed DigiPharm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #6A0DAD;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f4f4; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            color: #333;
+        }
+        header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .logout-btn:hover {
+            transform: scale(1.1);
+        }
+        nav { 
+            background: var(--secondary); 
+            padding: 12px; 
+            text-align: center; 
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            margin: 0 15px; 
+            font-size: 16px; 
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        nav a:hover { 
+            background: rgba(255,255,255,0.2);
+        }
+        section { 
+            padding: 30px 20px; 
+            text-align: center; 
+            flex: 1; 
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .page-title {
+            margin-bottom: 30px;
+        }
+        .page-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        .page-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .refill-form { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            margin: 0 auto;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            margin: 5px 0; 
+            border-radius: 6px; 
+            border: 1px solid #ddd; 
+            box-sizing: border-box; 
+            font-family: inherit;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        button { 
+            background: var(--primary); 
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        button:hover { 
+            background: #3e8e41; 
+        }
+        .prescription-history {
+            margin-top: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        .history-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .prescription-card {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .prescription-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .prescription-name {
+            font-weight: 600;
+            margin: 0;
+            color: var(--dark);
+        }
+        .prescription-number {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .prescription-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .prescription-date {
+            color: #666;
+        }
+        .refill-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        .refill-btn:hover {
+            background: #5a0a9c;
+        }
+        .confirmation {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        footer { 
+            background: var(--secondary); 
+            color: white; 
+            text-align: center; 
+            padding: 20px; 
+            margin-top: auto; 
+            font-size: 14px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .prescription-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .prescription-details {
+                flex-direction: column;
+            }
+            .refill-btn {
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-title">Prescription Refill</div>
+        <button class="logout-btn" onclick="window.location.href='loginpr.html'" title="Log Out">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </header>
+    <nav>
+        <a href="services.html"><i class="fas fa-arrow-left"></i> Back to Services</a>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="page-title">
+                <h2>Prescription Refill</h2>
+                <p>Request a refill for your existing prescriptions</p>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('new-request')">New Request</div>
+                <div class="tab" onclick="switchTab('history')">Prescription History</div>
+            </div>
+
+            <div class="tab-content active" id="new-request">
+                <div class="refill-form">
+                    <form id="refill-form">
+                        <div class="form-group">
+                            <label for="prescription-number">Prescription Number</label>
+                            <input type="text" id="prescription-number" name="prescription-number" placeholder="RX-123456" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medication">Medication Name</label>
+                            <input type="text" id="medication" name="medication" placeholder="Enter medication name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pharmacy">Preferred Pharmacy</label>
+                            <select id="pharmacy" name="pharmacy" required>
+                                <option value="" disabled selected>Select a pharmacy</option>
+                                <option value="main">Main Street Pharmacy - 123 Main St</option>
+                                <option value="downtown">Downtown Pharmacy - 456 Center Ave</option>
+                                <option value="north">Northside Pharmacy - 789 North Rd</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Additional Notes (Optional)</label>
+                            <input type="text" id="notes" name="notes" placeholder="Any special instructions...">
+                        </div>
+
+                        <button type="submit">Submit Refill Request</button>
+                        <div class="confirmation" id="confirmation">
+                            <i class="fas fa-check-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                            <h3>Refill Request Submitted!</h3>
+                            <p id="confirmation-details"></p>
+                            <p>We'll notify you when your prescription is ready for pickup.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-content" id="history">
+                <div class="prescription-history">
+                    <h3 class="history-title">Your Prescription History</h3>
+                    
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <h4 class="prescription-name">Lisinopril</h4>
+                            <span class="prescription-number">RX-789012</span>
+                        </div>
+                        <p>10mg tablets, take once daily for blood pressure</p>
+                        <div class="prescription-details">
+                            <span class="prescription-date">Last filled: 05/15/2025</span>
+                            <button class="refill-btn" onclick="refillFromHistory('Lisinopril', 'RX-789012')">
+                                <i class="fas fa-redo"></i> Request Refill
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <h4 class="prescription-name">Atorvastatin</h4>
+                            <span class="prescription-number">RX-345678</span>
+                        </div>
+                        <p>20mg tablets, take once daily for cholesterol</p>
+                        <div class="prescription-details">
+                            <span class="prescription-date">Last filled: 05/10/2025</span>
+                            <button class="refill-btn" onclick="refillFromHistory('Atorvastatin', 'RX-345678')">
+                                <i class="fas fa-redo"></i> Request Refill
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="prescription-card">
+                        <div class="prescription-header">
+                            <h4 class="prescription-name">Metformin</h4>
+                            <span class="prescription-number">RX-901234</span>
+                        </div>
+                        <p>500mg tablets, take twice daily for diabetes</p>
+                        <div class="prescription-details">
+                            <span class="prescription-date">Last filled: 04/28/2025</span>
+                            <button class="refill-btn" onclick="refillFromHistory('Metformin', 'RX-901234')">
+                                <i class="fas fa-redo"></i> Request Refill
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 Exceed DigiPharm. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#" style="color: white; margin: 0 10px;">Privacy Policy</a>
+            <a href="#" style="color: white; margin: 0 10px;">Terms of Service</a>
+            <a href="#" style="color: white; margin: 0 10px;">Contact Us</a>
+        </div>
+    </footer>
+    <script>
+        // Switch between tabs
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Refill from history
+        function refillFromHistory(medication, rxNumber) {
+            switchTab('new-request');
+            
+            document.getElementById('medication').value = medication;
+            document.getElementById('prescription-number').value = rxNumber;
+            
+            // Scroll to form
+            document.getElementById('new-request').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form submission
+        document.getElementById('refill-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const prescriptionNumber = this['prescription-number'].value;
+            const medication = this.medication.value;
+            const pharmacy = this.pharmacy.value;
+            
+            // Show confirmation
+            document.getElementById('confirmation-details').innerHTML = `
+                <strong>${medication}</strong><br>
+                Prescription #${prescriptionNumber}<br>
+                Pharmacy: ${this.pharmacy.options[this.pharmacy.selectedIndex].text}
+            `;
+            document.getElementById('confirmation').style.display = 'block';
+            
+            // Scroll to confirmation
+            document.getElementById('confirmation').scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form after delay
+            setTimeout(() => {
+                this.reset();
+                document.getElementById('confirmation').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

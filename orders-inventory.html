@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders & Inventory - Exceed Pharmacy Roma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 15px; text-align: center; position: relative; }
+        .back-to-home { position: absolute; top: 15px; right: 15px; color: white; text-decoration: none; font-size: 24px; }
+        .back-to-home:hover { color: #f0f0f0; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; font-size: 16px; }
+        .container { display: flex; flex: 1; }
+        .side-menu { width: 60px; background: #333; color: white; padding: 20px 10px; transition: width 0.3s ease; overflow: hidden; }
+        .side-menu:hover { width: 250px; }
+        .side-menu a { display: flex; align-items: center; color: white; padding: 10px; text-decoration: none; margin-bottom: 10px; border-radius: 5px; transition: background 0.3s; }
+        .side-menu a:hover { background: #4CAF50; }
+        .side-menu a i { font-size: 20px; margin-right: 10px; width: 30px; text-align: center; }
+        .side-menu a span { display: none; }
+        .side-menu:hover a span { display: inline; }
+        section { padding: 20px; flex: 1; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: 20px; }
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #ddd; }
+        .tab { padding: 10px 20px; cursor: pointer; border: 1px solid transparent; }
+        .tab.active { border: 1px solid #ddd; border-bottom: 1px solid white; border-radius: 5px 5px 0 0; background: white; margin-bottom: -1px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+        .low-stock { color: #f44336; font-weight: bold; }
+        .action-btn { padding: 5px 10px; margin-right: 5px; border: none; border-radius: 3px; cursor: pointer; }
+        .process-btn { background-color: #4CAF50; color: white; }
+        .cancel-btn { background-color: #f44336; color: white; }
+        .order-btn { background-color: #6A0DAD; color: white; padding: 10px 15px; border: none; border-radius: 3px; cursor: pointer; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Orders & Inventory</h1>
+        <a href="misdashboard.html" class="back-to-home"><i class="fas fa-home"></i></a>
+    </header>
+
+    <div class="container">
+        <div class="side-menu">
+            <a href="performance-metrics.html"><i class="fas fa-chart-bar"></i> <span>Performance Metrics</span></a>
+            <a href="employee-management.html"><i class="fas fa-users"></i> <span>Employee Management</span></a>
+            <a href="orders-inventory.html"><i class="fas fa-box"></i> <span>Orders & Inventory</span></a>
+            <a href="financial-reports.html"><i class="fas fa-file-invoice-dollar"></i> <span>Financial Reports</span></a>
+            <a href="messaging-support.html"><i class="fas fa-envelope"></i> <span>Messaging & Support</span></a>
+        </div>
+
+        <section>
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'inventory')">Inventory</div>
+                <div class="tab" onclick="openTab(event, 'orders')">Pending Orders</div>
+                <div class="tab" onclick="openTab(event, 'suppliers')">Suppliers</div>
+            </div>
+
+            <div id="inventory" class="tab-content active">
+                <h2>Current Inventory</h2>
+                <button class="order-btn"><i class="fas fa-plus"></i> Place New Order</button>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Current Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Supplier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MED001</td>
+                            <td>Paracetamol 500mg</td>
+                            <td>Pain Relief</td>
+                            <td class="low-stock">15</td>
+                            <td>20</td>
+                            <td>PharmaCorp</td>
+                        </tr>
+                        <tr>
+                            <td>MED002</td>
+                            <td>Ibuprofen 200mg</td>
+                            <td>Pain Relief</td>
+                            <td>45</td>
+                            <td>20</td>
+                            <td>MediSupplies</td>
+                        </tr>
+                        <tr>
+                            <td>MED003</td>
+                            <td>Amoxicillin 250mg</td>
+                            <td>Antibiotics</td>
+                            <td>32</td>
+                            <td>15</td>
+                            <td>HealthPlus</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="orders" class="tab-content">
+                <h2>Pending Orders</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Supplier</th>
+                            <th>Date Ordered</th>
+                            <th>Expected Delivery</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ORD2025001</td>
+                            <td>PharmaCorp</td>
+                            <td>2025-03-20</td>
+                            <td>2025-03-27</td>
+                            <td>Processing</td>
+                            <td>
+                                <button class="action-btn process-btn"><i class="fas fa-check"></i> Receive</button>
+                                <button class="action-btn cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ORD2025002</td>
+                            <td>MediSupplies</td>
+                            <td>2025-03-22</td>
+                            <td>2025-03-29</td>
+                            <td>Shipped</td>
+                            <td>
+                                <button class="action-btn process-btn"><i class="fas fa-check"></i> Receive</button>
+                                <button class="action-btn cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="suppliers" class="tab-content">
+                <h2>Suppliers List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supplier ID</th>
+                            <th>Supplier Name</th>
+                            <th>Contact Person</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SUP001</td>
+                            <td>PharmaCorp</td>
+                            <td>John Wilson</td>
+                            <td>(555) 123-4567</td>
+                            <td>john@pharmacorp.com</td>
+                        </tr>
+                        <tr>
+                            <td>SUP002</td>
+                            <td>MediSupplies</td>
+                            <td>Sarah Miller</td>
+                            <td>(555) 987-6543</td>
+                            <td>sarah@medisupplies.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            const tabs = document.getElementsByClassName("tab");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

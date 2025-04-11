@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Metrics - Exceed Pharmacy Roma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; background-color: #f4f4f4; }
+        header { background: #4CAF50; color: white; padding: 10px; text-align: center; position: relative; }
+        .back-to-home { position: absolute; top: 10px; right: 15px; color: white; text-decoration: none; font-size: 20px; }
+        .back-to-home:hover { color: #f0f0f0; }
+        nav { background: #6A0DAD; padding: 10px; text-align: center; font-size: 16px; }
+        .container { display: flex; flex: 1; }
+        .side-menu { width: 60px; background: #333; color: white; padding: 20px 10px; transition: width 0.3s ease; overflow: hidden; }
+        .side-menu.expanded { width: 250px; }
+        .side-menu a { display: flex; align-items: center; color: white; padding: 10px; text-decoration: none; margin-bottom: 5px; border-radius: 5px; transition: background 0.3s; white-space: nowrap; }
+        .side-menu a:hover { background: #4CAF50; }
+        .side-menu a i { font-size: 18px; margin-right: 10px; width: 25px; text-align: center; }
+        .side-menu a span { display: none; }
+        .side-menu.expanded a span { display: inline; }
+        .menu-header { padding: 10px; margin-bottom: 15px; border-bottom: 1px solid #555; font-weight: bold; text-align: center; display: none; }
+        .side-menu.expanded .menu-header { display: block; }
+        .menu-toggle { cursor: pointer; text-align: center; margin-bottom: 15px; font-size: 20px; }
+        section { padding: 20px; flex: 1; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: 20px; text-align: center; }
+        footer { background: #6A0DAD; color: white; text-align: center; padding: 10px; margin-top: auto; }
+        .chart-container { margin: 20px auto; max-width: 600px; }
+        .small-chart { max-width: 400px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h2 style="margin: 0; font-size: 1.5rem;">Performance Metrics - Exceed Pharmacy Roma</h2>
+        <a href="misdashboard.html" class="back-to-home"><i class="fas fa-home"></i></a>
+    </header>
+
+    <div class="container">
+        <div class="side-menu" id="sideMenu">
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="menu-header">METRICS NAVIGATION</div>
+            <a href="#sales"><i class="fas fa-chart-line"></i> <span>Sales Performance</span></a>
+            <a href="#prescriptions"><i class="fas fa-prescription-bottle"></i> <span>Prescription Metrics</span></a>
+            <a href="#customer"><i class="fas fa-users"></i> <span>Customer Feedback</span></a>
+            <a href="#inventory"><i class="fas fa-boxes"></i> <span>Inventory Turnover</span></a>
+            <a href="#staff"><i class="fas fa-user-md"></i> <span>Staff Performance</span></a>
+            <div class="menu-header">REPORTS</div>
+            <a href="#export"><i class="fas fa-file-export"></i> <span>Export Data</span></a>
+            <a href="#compare"><i class="fas fa-not-equal"></i> <span>Compare Periods</span></a>
+        </div>
+
+        <section>
+            <h2>Key Performance Metrics</h2>
+            <p>Review the pharmacy's performance over the last quarter (January - March 2025).</p>
+
+            <!-- Sales Over Time (Line Chart) -->
+            <div class="chart-container" id="sales">
+                <h3>Sales Over Time</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <!-- Prescription Fill Rate (Bar Chart) -->
+            <div class="chart-container" id="prescriptions">
+                <h3>Prescription Fill Rate</h3>
+                <canvas id="fillRateChart"></canvas>
+            </div>
+
+            <!-- Customer Satisfaction (Pie Chart) -->
+            <div class="chart-container small-chart" id="customer">
+                <h3>Customer Satisfaction Breakdown</h3>
+                <canvas id="satisfactionChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle side menu
+        function toggleMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            sideMenu.classList.toggle('expanded');
+        }
+
+        // Sales Over Time (Line Chart)
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March'],
+                datasets: [{
+                    label: 'Sales (M)',
+                    data: [12000, 15000, 13500],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, title: { display: true, text: 'Sales (M)' } },
+                    x: { title: { display: true, text: 'Month' } }
+                }
+            }
+        });
+
+        // Prescription Fill Rate (Bar Chart)
+        const fillRateCtx = document.getElementById('fillRateChart').getContext('2d');
+        const fillRateChart = new Chart(fillRateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March'],
+                datasets: [{
+                    label: 'Fill Rate (%)',
+                    data: [95, 98, 92],
+                    backgroundColor: '#6A0DAD',
+                    borderColor: '#6A0DAD',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true, max: 100, title: { display: true, text: 'Fill Rate (%)' } },
+                    x: { title: { display: true, text: 'Month' } }
+                }
+            }
+        });
+
+        // Customer Satisfaction (Pie Chart)
+        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+        const satisfactionChart = new Chart(satisfactionCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied'],
+                datasets: [{
+                    label: 'Customer Feedback',
+                    data: [50, 30, 15, 5],
+                    backgroundColor: ['#4CAF50', '#6A0DAD', '#FFD700', '#FF4500'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Customer Satisfaction (%)' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

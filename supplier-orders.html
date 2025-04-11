@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - Exceed DigiPharm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background-color: #f4f4f4; 
+        }
+        header { 
+            background: linear-gradient(135deg, #4CAF50, #45a049); 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+            position: relative; 
+        }
+        .back-to-dashboard { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            color: white; 
+            text-decoration: none; 
+            font-size: 24px; 
+        }
+        .back-to-dashboard:hover { 
+            color: #f0f0f0; 
+        }
+        nav { 
+            background: #6A0DAD; 
+            padding: 10px; 
+            text-align: center; 
+            font-size: 16px; 
+        }
+        section { 
+            padding: 20px; 
+            margin: auto; 
+            width: 80%; 
+            background-color: white; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            text-align: center; 
+            flex: 1; 
+        }
+        footer { 
+            background: linear-gradient(135deg, #6A0DAD, #5a0a9e); 
+            color: white; 
+            text-align: center; 
+            padding: 10px; 
+            margin-top: auto; 
+        }
+        .order-list, .predictive-orders { 
+            margin-top: 20px; 
+        }
+        .order, .predicted-order { 
+            background: #ffffff; 
+            padding: 20px; 
+            margin: 15px 0; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            text-align: left; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+        .order:hover, .predicted-order:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+        .order h3, .predicted-order h3 { 
+            color: #4CAF50; 
+            margin-bottom: 10px; 
+        }
+        .order p, .predicted-order p { 
+            font-size: 16px; 
+            color: #555; 
+            margin: 5px 0; 
+        }
+        .order button { 
+            background: #4CAF50; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            margin-top: 10px; 
+        }
+        .order button i { 
+            font-size: 16px; 
+        }
+        .order button:hover { 
+            background: #45a049; 
+        }
+        .order button:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+        }
+        .predictive-orders h2 { 
+            color: #6A0DAD; 
+            margin-bottom: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Manage Orders</h1>
+        <a href="supplier-dashboard.html" class="back-to-dashboard">
+            <i class="fas fa-arrow-left"></i> <!-- Back icon -->
+        </a>
+    </header>
+
+    <section>
+        <h2>Current Orders</h2>
+        <div class="order-list">
+            <div class="order" id="order-12345">
+                <h3>Order #12345</h3>
+                <p>Product: Paracetamol</p>
+                <p>Quantity: 100</p>
+                <p>Status: <span class="status">Pending</span></p>
+                <button onclick="markAsShipped('order-12345')">
+                    <i class="fas fa-truck"></i> <!-- Truck icon -->
+                    Mark as Shipped
+                </button>
+            </div>
+            <div class="order" id="order-12346">
+                <h3>Order #12346</h3>
+                <p>Product: Ibuprofen</p>
+                <p>Quantity: 50</p>
+                <p>Status: <span class="status">Shipped</span></p>
+                <button disabled>
+                    <i class="fas fa-check"></i> <!-- Check icon -->
+                    Shipped
+                </button>
+            </div>
+        </div>
+
+        <!-- Predictive Orders Section -->
+        <div class="predictive-orders">
+            <h2>Predictive Orders</h2>
+            <div class="predicted-order">
+                <h3>Predicted Order #20001</h3>
+                <p>Product: Vitamin C</p>
+                <p>Predicted Quantity: 200</p>
+                <p>Likelihood: High</p>
+            </div>
+            <div class="predicted-order">
+                <h3>Predicted Order #20002</h3>
+                <p>Product: Aspirin</p>
+                <p>Predicted Quantity: 150</p>
+                <p>Likelihood: Medium</p>
+            </div>
+            <div class="predicted-order">
+                <h3>Predicted Order #20003</h3>
+                <p>Product: Antacid</p>
+                <p>Predicted Quantity: 80</p>
+                <p>Likelihood: Low</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Exceed DigiPharm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function markAsShipped(orderId) {
+            const order = document.getElementById(orderId);
+            const status = order.querySelector('.status');
+            const button = order.querySelector('button');
+
+            // Update status to "Shipped"
+            status.textContent = 'Shipped';
+
+            // Disable the button and change its text
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-check"></i> Shipped';
+        }
+    </script>
+</body>
+</html>
